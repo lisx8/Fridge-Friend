@@ -16,18 +16,17 @@ public class Pantry
 	{
 		if(this.findFile())
 		{
-			//If file is found, continue doing your shit
+			this.createFromFile();
 		}
 	}
 	
-	private boolean findFile()
+	private boolean findFile()//i can't access findFile() from constructor if it's marked static
 	{
 		inFile = new File("C:/Users/Shay/Documents/PantryList.txt");
 		
 		try
 		{
 			scanFile = new Scanner(inFile);
-			numPantryList = scanFile.nextInt();
 			
 			return true;
 		} catch(Exception e)
@@ -38,18 +37,31 @@ public class Pantry
 		}
 	}
 	
+	private void createFromFile()//i can't access createFromFile() from constructor if it's marked static
+	{
+		for(int i = 0; i < numPantryList; i++)//use the new thing Anneke showed us, once they post the slides?
+		{
+			PantryItem newGrocery = new PantryItem(scanFile.next());
+			
+			
+		}
+		
+		
+		
+	}
+	
 	public static void minHeapSort(PantryItem[] unsorted)
 	{
 		sorted = new PriorityQueue<PantryItem>(unsorted.length);
 		
 		newGrocery = new PantryItem(scanFile.next());
-		sorted.add(newGrocery);
+		sorted.addToPantry(newGrocery);
 	}
 	
-	/*public static void addToPantry(PantryItem food)
+	public static void addToPantry(PantryItem food)
 	{
 		
-	}*/
+	}
 	
 	
 	
@@ -58,7 +70,7 @@ public class Pantry
 	
 	
 	/* When user presses delete button, the String is passed from the GUI to this method, where
-	 * it will be searched for in the sorted array (NAME IT) and then deleted. 
+	 * it will be searched for in the sorted array (sorted) and then deleted. 
 	 */
 	public static void pantryDeleter(String del)
 	{
