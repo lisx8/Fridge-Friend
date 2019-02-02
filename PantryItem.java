@@ -2,7 +2,7 @@ public class PantryItem implements Comparable<PantryItem>{
 	private String pantryItem;
 	PantryItemDatabase database = new PantryItemDatabase();
 	private int numDaysToExpiry;
-	public void PantryItem(String item)
+	public PantryItem(String item)
 	{
 		pantryItem = item;
 		numDaysToExpiry = database.checkDatabase(item);
