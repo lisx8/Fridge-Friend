@@ -6,68 +6,41 @@ import java.util.Collections;
 public class Pantry
 {
 	private static PriorityQueue<PantryItem> sorted;
-	private static File inFile;
+	private static File savedPantryList = new File("C:/Users/Shay/Documents/PantryList.txt");
 	private static int numPantryList;
-	private static Scanner scanFile;
 	private static PantryItem newGrocery;
 	
 	//Constructor for Pantry; takes an array of PantryItems and does [INSERT STUFF HERE]
-	public Pantry()
+	public Pantry() throws FileNotFoundException
 	{
-		if(this.findFile())
+		this.createFromFile();
+	}
+
+	private void createFromFile() throws FileNotFoundException
+	{
+		Scanner scanFile = new Scanner(savedPantryList);
+		
+		while(scanFile.hasNext())
 		{
-			this.createFromFile();
+			PantryItem newGrocery = new PantryItem(scanFile.next(), scanFile.nextInt());
+			sorted.add(newGrocery);
 		}
+		
+		scanFile.close();
 	}
 	
-	private boolean findFile()//i can't access findFile() from constructor if it's marked static
+	private static void addToPantry(PantryItem item)
 	{
-		inFile = new File("C:/Users/Shay/Documents/PantryList.txt");
-		
-		try
-		{
-			scanFile = new Scanner(inFile);
-			
-			return true;
-		} catch(Exception e)
-		{
-			System.out.println("File not found.");
-			
-			return false;
-		}
-	}
-	
-	private void createFromFile()//i can't access createFromFile() from constructor if it's marked static
-	{
-		for(int i = 0; i < numPantryList; i++)//use the new thing Anneke showed us, once they post the slides?
-		{
-			PantryItem newGrocery = new PantryItem(scanFile.next());
-			
-			
-		}
-		
-		
-		
+		sorted.add(item);
 	}
 	
 	public static void minHeapSort(PantryItem[] unsorted)
 	{
 		sorted = new PriorityQueue<PantryItem>(unsorted.length);
 		
-		newGrocery = new PantryItem(scanFile.next());
-		sorted.addToPantry(newGrocery);
+		//newGrocery = new PantryItem(scanFile.next(), scanFile.nextInt());
+		sorted.add(newGrocery);
 	}
-	
-	public static void addToPantry(PantryItem food)
-	{
-		
-	}
-	
-	
-	
-	
-	
-	
 	
 	/* When user presses delete button, the String is passed from the GUI to this method, where
 	 * it will be searched for in the sorted array (sorted) and then deleted. 
