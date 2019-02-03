@@ -4,7 +4,7 @@ public class DatabaseItem {
 	private static int expiryDate;
 	public DatabaseItem(String aKey, int averageShelfLife)
 	{
-		aKey = key;
+		key = aKey;
 		expiryDate = averageShelfLife;
 	}
 	protected static int getExpiryDate()
