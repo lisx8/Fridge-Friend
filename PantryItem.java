@@ -6,7 +6,7 @@ public class PantryItem implements Comparable<PantryItem>{
 	 * PantryItem constructor 1):
 	 * 1) This one searches the database for a string for a known expiry date
 	 * */
-	public void PantryItem(String item)
+	public PantryItem(String item)
 	{
 		pantryItem = item;
 		numDaysToExpiry = database.checkDatabase(item);
@@ -14,7 +14,7 @@ public class PantryItem implements Comparable<PantryItem>{
 	/* PantryItem constructor 2)
 	 * 
 	 */
-	public void PantryItem(String item, int daysToExpiry)
+	public PantryItem(String item, int daysToExpiry)
 	{
 		pantryItem = item;
 		numDaysToExpiry = daysToExpiry;
