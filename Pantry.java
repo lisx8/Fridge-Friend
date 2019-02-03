@@ -16,9 +16,9 @@ public class Pantry
 	{
 		this.createFromFile();
 	}
-	public static ArrayList<PantryItem> sortedPantry;
-	{
-		return sortedPantry;
+	public static ArrayList<PantryItem> getPantry()
+	{	PantryItem[] arr = sortedPantry.toArray();
+		return arr;
 	}
 	//Fills sortedPantry with PantryItems from a file, then sorts all values.
 	private void createFromFile() throws FileNotFoundException
