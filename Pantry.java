@@ -34,7 +34,7 @@ public class Pantry
 	}
 	
 	//Takes a String, makes a PantryItem from it, then adds it to sortedPantry and sorts it.
-	private static void addToPantry(String item)
+	public static void addToPantry(String item)
 	{
 		PantryItem temp = new PantryItem(item);
 		sortedPantry.add(temp);
@@ -52,13 +52,11 @@ public class Pantry
 	public static void savePantry() throws FileNotFoundException
 	{
 		PrintWriter writer = new PrintWriter(savedPantryList);
-		
 		for(int i = 0; i < sortedPantry.size(); i++)
 		{
 			writer.print(sortedPantry.get(i).pantryItem() + " " + sortedPantry.get(i).getNumDaysToExpiry());
 			pantryDeleter(sortedPantry.get(i));
 		}
-		
 		writer.close();
 	}
 }
