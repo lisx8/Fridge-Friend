@@ -12,12 +12,12 @@ public class Pantry
 	private static int numPantryList;
 	
 	//Constructor for Pantry; calls createFromFile()
-	public Pantry() throws FileNotFoundException
+	public Pantry() throws FileNotFoundException //throws FileNotFoundException
 	{
 		this.createFromFile();
 	}
-	public static ArrayList<PantryItem> getPantry()
-	{	PantryItem[] arr = sortedPantry.toArray();
+	public PantryItem[] getPantry()
+	{	PantryItem[] arr = (PantryItem[]) sortedPantry.toArray();
 		return arr;
 	}
 	//Fills sortedPantry with PantryItems from a file, then sorts all values.
