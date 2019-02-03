@@ -1,52 +1,64 @@
 import java.io.*;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.PriorityQueue;
 import java.util.Collections;
+import java.util.ArrayList;
 
 public class Pantry
 {
-	private static PriorityQueue<PantryItem> sorted;
+	private static ArrayList<PantryItem> sortedPantry;
 	private static File savedPantryList = new File("C:/Users/Shay/Documents/PantryList.txt");
 	private static int numPantryList;
-	private static PantryItem newGrocery;
 	
-	//Constructor for Pantry; takes an array of PantryItems and does [INSERT STUFF HERE]
+	//Constructor for Pantry; calls createFromFile()
 	public Pantry() throws FileNotFoundException
 	{
 		this.createFromFile();
 	}
-
+	
+	//Fills sortedPantry with PantryItems from a file, then sorts all values.
 	private void createFromFile() throws FileNotFoundException
 	{
 		Scanner scanFile = new Scanner(savedPantryList);
+		sortedPantry = new ArrayList<PantryItem>();
 		
 		while(scanFile.hasNext())
 		{
 			PantryItem newGrocery = new PantryItem(scanFile.next(), scanFile.nextInt());
-			sorted.add(newGrocery);
+			sortedPantry.add(newGrocery);
+			numPantryList++;
 		}
-		
+		Collections.sort(sortedPantry);
 		scanFile.close();
 	}
 	
-	private static void addToPantry(PantryItem item)
+	//Takes a String, makes a PantryItem from it, then adds it to sortedPantry and sorts it.
+	private static void addToPantry(String item)
 	{
-		sorted.add(item);
+		PantryItem temp = new PantryItem(item);
+		sortedPantry.add(temp);
+		Collections.sort(sortedPantry);
+		numPantryList++;
+	}
+
+	//Removes a PantryItem from sortedPantry, then sorts it.
+	public static void pantryDeleter(PantryItem item)
+	{
+		sortedPantry.remove(item);
+		Collections.sort(sortedPantry);
 	}
 	
-	public static void minHeapSort(PantryItem[] unsorted)
+	public static void savePantry() throws FileNotFoundException
 	{
-		sorted = new PriorityQueue<PantryItem>(unsorted.length);
+		PrintWriter writer = new PrintWriter(savedPantryList);
 		
-		//newGrocery = new PantryItem(scanFile.next(), scanFile.nextInt());
-		sorted.add(newGrocery);
-	}
-	
-	/* When user presses delete button, the String is passed from the GUI to this method, where
-	 * it will be searched for in the sorted array (sorted) and then deleted. 
-	 */
-	public static void pantryDeleter(String del)
-	{
+		for(int i = 0; i < sortedPantry.size(); i++)
+		{
+			writer.print(sortedPantry.get(i).pantryItem() + " " + sortedPantry.get(i).getNumDaysToExpiry());
+			pantryDeleter(sortedPantry.get(i));
+		}
 		
+		writer.close();
 	}
 }
