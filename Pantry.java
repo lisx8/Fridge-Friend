@@ -16,7 +16,10 @@ public class Pantry
 	{
 		this.createFromFile();
 	}
-	
+	public static ArrayList<PantryItem> sortedPantry;
+	{
+		return sortedPantry;
+	}
 	//Fills sortedPantry with PantryItems from a file, then sorts all values.
 	private void createFromFile() throws FileNotFoundException
 	{
