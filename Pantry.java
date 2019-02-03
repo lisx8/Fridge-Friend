@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Pantry
 {
 	private static ArrayList<PantryItem> sortedPantry;
-	private static File savedPantryList = new File("C:/Users/Shay/Documents/PantryList.txt");
+	private static File savedPantryList = new File("C:/Program Files/Fridge-Friend/savedPantryList.txt");
 	private static int numPantryList;
 	
 	//Constructor for Pantry; calls createFromFile()
