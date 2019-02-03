@@ -35,9 +35,9 @@ public class GroceryList {
 	}
 	
 	//Returns the checkList
-	public static ArrayList<String> getCheckList()
+	public String[] getCheckList()
 	{	
-		String[] arr = ArrayList.toArray();
+		String[] arr = (String[]) checkList.toArray();
 		return arr;
 	}
 
