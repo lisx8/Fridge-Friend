@@ -24,7 +24,6 @@ public class GroceryList {
 		sc.close();
 	}
 
-	//Saves the current checklist by printing checklist to a file
 	//Overwrites and saves the current checklist by printing checklist to a file
 	public void saveChecklist() throws FileNotFoundException{
 		PrintWriter wr = new PrintWriter(savedGroceryList);
@@ -35,8 +34,8 @@ public class GroceryList {
 		wr.close();
 	}
 	
-	//
-	public static ArrayList getCheckList()
+	//Returns the checkList
+	public static ArrayList<String> getCheckList()
 	{
 		return checkList;
 	}
@@ -61,7 +60,6 @@ public class GroceryList {
 	public static void deleteAndAddToPantry(String item) {
 		Pantry.addToPantry(item);
 		checkList.remove(item);
-	//and called addtoPantry(String) to add it to the Pantry
 	}
 }
 
