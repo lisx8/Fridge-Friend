@@ -34,6 +34,12 @@ public class GroceryList {
 		}
 		wr.close();
 	}
+	
+	//
+	public static ArrayList getCheckList()
+	{
+		return checkList;
+	}
 
 	//Adds new item to the checklist
 	//In the future, we might make this boolean, because if the checklist already contains the item
@@ -52,7 +58,7 @@ public class GroceryList {
 
 	//Deletes the item from the checklist
 	//and calls Pantry.addtoPantry(String) to add it to the Pantry
-	private static void deleteAndAddToPantry(String item) {
+	public static void deleteAndAddToPantry(String item) {
 		Pantry.addToPantry(item);
 		checkList.remove(item);
 	//and called addtoPantry(String) to add it to the Pantry
