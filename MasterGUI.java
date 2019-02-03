@@ -2,6 +2,10 @@ import java.awt.Component;
 import javax.swing.JRadioButton;
 import javax.swing.ListCellRenderer;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -9,39 +13,37 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.event.*;
-public class MasterGUI implements ChangeListener{
-    static JPanel testPaneList =  new JPanel();
+
+public class MasterGUI {
+    static JPanel testPane =  new JPanel();
     static JTabbedPane tabs = new JTabbedPane(JTabbedPane.BOTTOM);
     static JFrame fr = new JFrame();
     
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            
-            public void run() {
+    public static void main(String args[])throws FileNotFoundException  {
                 Pantry pantry = new Pantry();
                 GroceryList groceries = new GroceryList();
-                ArrayList<String> itemsToBuy = groceries.getCheckList();
-                ArrayList<PantryItem> purchased = pantry.getCheckList();
-                JList itemsToBuyList = new JList(itemsToBuy); //WHAT IS
-                JTextField shoppingBuddy = new JTextField("Fridge Friend is your shopping buddy!");
+                String[] itemsToBuy = groceries.getCheckList();
+                PantryItem[] purchased = pantry.getPantry();
+                String[] arr = groceries.getCheckList();
+                JList itemsToBuyList = new JList(arr); //WHAT IS
                 //
                 itemsToBuyList.setCellRenderer(new RadioButtonListCellRenderer());
-                for (int i=0; i <itemsToBuy.size();i++)
+                for (int i=0; i <itemsToBuy.length;i++)
                 {
-                    itemsToBuyList.add(itemsToBuy.get(i),testPaneList);
+                    JButton currButton = new JButton(itemsToBuy[i]);
+                    itemsToBuyList.add(currButton);
+                    currButton.setActionCommand(Integer.toString(i));
                 }
                 
                 JList purchasedList = new JList(purchased);
                 purchasedList.setCellRenderer(new RadioButtonListCellRenderer());
-                for (int j=0; j <itemsToBuy.size();j++)
+                for (int j=0; j <itemsToBuy.length;j++)
                 {
-                    PantryItem temp = purchased.remove(i);
-                    purchasedList.add(temp.pantryItem() + "       " + temp.getNumDaysToExpiry());
+                    groceries.deleteAndAddToPantry(itemsToBuy[j]);
                 }
                 tabs.addTab("Grocery List", null, itemsToBuyList,"n");
                 tabs.addTab("Pantry", null, purchasedList,"n");
                 fr.add(tabs);
-                tabs.addChangeListener(this);
                 fr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 fr.setPreferredSize(new Dimension(800, 400));
                 fr.pack();
@@ -49,28 +51,8 @@ public class MasterGUI implements ChangeListener{
                 fr.setVisible(true);
                 //fr.setIconImage(image);
             }
-        });
     }
-   public void stateChanged(ChangeEvent e)
-   {
-       //
-   }
-   public void actionPerformed(ActionEvent e)
-   {
-       //keyboard input creates a grocerylist item
-   }
-   public void addItemToFile()
-   {
-        
-   }
-   public void removeItemFromFile()
-   {
-        
-   }
-}
-
-
-//Source from StackOverflow
+//Source: StackOverflow
  class RadioButtonListCellRenderer extends JRadioButton implements ListCellRenderer{
     public Component getListCellRendererComponent(JList list, Object value, int index, 
             boolean isSelected, boolean cellHasFocus) {
