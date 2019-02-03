@@ -1,83 +1,64 @@
 import java.io.*;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.PriorityQueue;
 import java.util.Collections;
+import java.util.ArrayList;
 
 public class Pantry
 {
-	private static PriorityQueue<PantryItem> sorted;
-	private static File inFile;
+	private static ArrayList<PantryItem> sortedPantry;
+	private static File savedPantryList = new File("C:/Users/Shay/Documents/PantryList.txt");
 	private static int numPantryList;
-	private static Scanner scanFile;
-	private static PantryItem newGrocery;
 	
-	//Constructor for Pantry; takes an array of PantryItems and does [INSERT STUFF HERE]
-	public Pantry()
+	//Constructor for Pantry; calls createFromFile()
+	public Pantry() throws FileNotFoundException
 	{
-		if(this.findFile())
+		this.createFromFile();
+	}
+	
+	//Fills sortedPantry with PantryItems from a file, then sorts all values.
+	private void createFromFile() throws FileNotFoundException
+	{
+		Scanner scanFile = new Scanner(savedPantryList);
+		sortedPantry = new ArrayList<PantryItem>();
+		
+		while(scanFile.hasNext())
 		{
-			this.createFromFile();
+			PantryItem newGrocery = new PantryItem(scanFile.next(), scanFile.nextInt());
+			sortedPantry.add(newGrocery);
+			numPantryList++;
 		}
+		Collections.sort(sortedPantry);
+		scanFile.close();
 	}
 	
-	private boolean findFile()//i can't access findFile() from constructor if it's marked static
+	//Takes a String, makes a PantryItem from it, then adds it to sortedPantry and sorts it.
+	private static void addToPantry(String item)
 	{
-		inFile = new File("C:/Users/Shay/Documents/PantryList.txt");
-		
-		try
-		{
-			scanFile = new Scanner(inFile);
-			
-			return true;
-		} catch(Exception e)
-		{
-			System.out.println("File not found.");
-			
-			return false;
-		}
+		PantryItem temp = new PantryItem(item);
+		sortedPantry.add(temp);
+		Collections.sort(sortedPantry);
+		numPantryList++;
 	}
-	
-	private void createFromFile()//i can't access createFromFile() from constructor if it's marked static
-	{
-		for(int i = 0; i < numPantryList; i++)//use the new thing Anneke showed us, once they post the slides?
-		{
-			PantryItem newGrocery = new PantryItem(scanFile.next());
-			
-			
-		}
-		
-		
-		
-	}
-	
-	public static void minHeapSort(PantryItem[] unsorted)
-	{
-		sorted = new PriorityQueue<PantryItem>(unsorted.length);
-		
-		newGrocery = new PantryItem(scanFile.next());
-		sorted.addToPantry(newGrocery);
-	}
-	
-	public static void addToPantry(PantryItem food)
-	{
-		
-	}
-	
-	
-	
-	
-	
-	
-	
-	/* When user presses delete button, the String is passed from the GUI to this method, where
-	 * it will be searched for in the sorted array (sorted) and then deleted. 
-	 */
-	public static void pantryDeleter(String del)
-    
-/* the sorted list of items in the pantry
- *	new items are added by creating a PantryItem, which takes a string to search the database for
- *  if the entry is in the database, it will create a pair storing both the integer numDaysToExpiry
- *  and the integer pantry item
- * */
 
+	//Removes a PantryItem from sortedPantry, then sorts it.
+	public static void pantryDeleter(PantryItem item)
+	{
+		sortedPantry.remove(item);
+		Collections.sort(sortedPantry);
+	}
+	
+	public static void savePantry() throws FileNotFoundException
+	{
+		PrintWriter writer = new PrintWriter(savedPantryList);
+		
+		for(int i = 0; i < sortedPantry.size(); i++)
+		{
+			writer.print(sortedPantry.get(i).pantryItem() + " " + sortedPantry.get(i).getNumDaysToExpiry());
+			pantryDeleter(sortedPantry.get(i));
+		}
+		
+		writer.close();
+	}
 }
